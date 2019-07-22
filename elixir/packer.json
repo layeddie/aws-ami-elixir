@@ -1,0 +1,53 @@
+{
+    "variables": {
+        "elixir_version": "1.9.1"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "ami_name": "amzn2-ami-elixir-1.9.1-hvm-2.0.20190603-x86_64-ebs",
+            "region": "us-east-1",
+            "ami_regions": [
+                "us-west-1"
+            ],
+            "source_ami_filter": {
+                "most_recent": true,
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "amzn2-ami-erlang-22.0-hvm-2.0.20190603-x86_64-ebs",
+                    "root-device-type": "ebs"
+                },
+                "owners": [
+                    "self"
+                ]
+            },
+            "vpc_id": "vpc-02a94d78",
+            "associate_public_ip_address": "true",
+            "ami_virtualization_type": "hvm",
+            "subnet_id": "subnet-f98a52d7",
+            "instance_type": "m5a.xlarge",
+            "ssh_username": "ec2-user",
+            "run_tags": {
+                "Name": "Amazon Linux 2 - Elixir {{user `elixir_version`}}"
+            },
+            "tags": {
+                "Name": "Amazon Linux 2 - Elixir {{user `elixir_version`}}",
+                "BaseAmi": "{{ .SourceAMIName }}",
+                "ElixirVersion": "{{user `elixir_version`}}"
+            },
+            "ami_users": [
+                "226873539218"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+            "script": "provisioner.sh",
+            "environment_vars": [
+                "ELIXIR_VERSION={{user `elixir_version`}}"
+            ]
+        }
+    ]
+}

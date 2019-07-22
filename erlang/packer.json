@@ -1,0 +1,51 @@
+{
+    "variables": {
+        "erlang_version": "22.0"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "ami_name": "amzn2-ami-erlang-22.0-hvm-2.0.20190603-x86_64-ebs",
+            "region": "us-east-1",
+            "ami_regions": [
+                "us-west-1"
+            ],
+            "source_ami_filter": {
+                "most_recent": true,
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "amzn2-ami-minimal-hvm-2.0.????????-x86_64-ebs",
+                    "root-device-type": "ebs"
+                },
+                "owners": [
+                    "amazon"
+                ]
+            },
+            "vpc_id": "vpc-02a94d78",
+            "associate_public_ip_address": "true",
+            "ami_virtualization_type": "hvm",
+            "subnet_id": "subnet-f98a52d7",
+            "instance_type": "m5a.xlarge",
+            "ssh_username": "ec2-user",
+            "run_tags": {
+                "Name": "Amazon Linux 2 - Erlang {{user `erlang_version`}}"
+            },
+            "tags": {
+                "Name": "Amazon Linux 2 - Erlang {{user `erlang_version`}}",
+                "BaseAmi": "{{ .SourceAMIName }}",
+                "ErlangVersion": "{{user `erlang_version`}}"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+            "script": "provisioner.sh",
+            "environment_vars": [
+                "ERLANG_VERSION={{user `erlang_version`}}",
+                "ERL_TOP=/tmp/otp_src_{{user `erlang_version`}}"
+            ]
+        }
+    ]
+}
