@@ -10,7 +10,7 @@ unzip /tmp/elixir.zip -d /opt/elixir/${ELIXIR_VERSION}/
 
 # Configure Shell
 cat >> /etc/profile.d/iex.sh <<EOL
-export PATH="/opt/elixir/${ELIXIR_VERSION}/bin:$PATH"
+export PATH="/opt/elixir/${ELIXIR_VERSION}/bin:\$PATH"
 EOL
 
 # Clean all

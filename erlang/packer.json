@@ -5,7 +5,7 @@
     "builders": [
         {
             "type": "amazon-ebs",
-            "ami_name": "amzn2-ami-erlang-22.0-hvm-2.0.20190603-x86_64-ebs",
+            "ami_name": "amzn2-ami-erlang-{{user `erlang_version`}}-hvm-2.0.20190603-x86_64-ebs",
             "region": "us-east-1",
             "ami_regions": [
                 "us-west-1"

@@ -20,7 +20,7 @@ make -j$(nproc) && make -j$(nproc) install
 
 # Configure Shell
 cat >> /etc/profile.d/erl.sh <<EOL
-export PATH="/opt/erlang/${ERLANG_VERSION}/bin:$PATH"
+export PATH="/opt/erlang/${ERLANG_VERSION}/bin:\$PATH"
 EOL
 
 # Clean all
